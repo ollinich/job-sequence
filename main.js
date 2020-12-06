@@ -1,5 +1,5 @@
 const SequenceJobs = (job) => {
-    return "";
+    return job.charAt(0);
 }
 
 export default SequenceJobs;

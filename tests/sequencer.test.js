@@ -7,7 +7,12 @@ describe("Job Sequencer", () => {
     })
 
     it("returns a sequence of a single job when provided a single job", () => {
-        var result = sequenceJobs("a");
+        var result = sequenceJobs("a =>");
         expect(result).toBe("a");
+    })
+
+    it("returns a sequence of jobs when provided a sequence of a jobs with no dependencies", () => {
+        var result = sequenceJobs(["a =>", "b =>", "c =>"]);
+        expect(result).toBe("abc");
     })
 })
