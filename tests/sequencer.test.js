@@ -53,4 +53,14 @@ describe("Job Sequencer", () => {
     it("throws a self-dependency error when given a sequence of jobs, one dependent on itself", () => {
         expect(() => sequenceJobs(["a =>", "b => c", "c => c"])).toThrow("self-dependency error");
     })
+
+    it("throws a circular-dependency error when given a sequence of jobs with a circular dependency", () => {
+        expect(() => sequenceJobs([
+            "a =>",
+            "b => c",
+            "c => f",
+            "d => a",
+            "e => b",
+            "f =>"])).toThrow("circular-dependency error");
+    })
 })

@@ -18,6 +18,10 @@ const SequenceJobs = (jobsList) => {
     jobs.forEach((job, jobIndex) => {
         var jobParts = job.split(" => ");
         if (jobParts.length == 2 && jobParts[1] != "") {
+            if (jobParts[0] == jobParts[1]) {
+                throw ("self-dependency error");
+            }
+
             jobChars = moveDependencyBeforeJob(jobChars, jobParts[0], jobParts[1])
         }
     });
