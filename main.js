@@ -1,4 +1,5 @@
-const SequenceJobs = () => {
+const SequenceJobs = (job) => {
+    return "";
 }
 
 export default SequenceJobs;
