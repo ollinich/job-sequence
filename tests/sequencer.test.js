@@ -60,7 +60,7 @@ describe("Job Sequencer", () => {
             "b => c",
             "c => f",
             "d => a",
-            "e => b",
-            "f =>"])).toThrow("circular-dependency error");
+            "e =>",
+            "f => b"])).toThrow("circular dependency error");
     })
 })
