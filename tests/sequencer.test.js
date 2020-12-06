@@ -47,6 +47,10 @@ describe("Job Sequencer", () => {
         expect(bIndex).toBeLessThan(eIndex);
         expect(aIndex).toBeLessThan(dIndex);
         expect(result.length).toBe(6);
-        expect(result).toBe("fcabde");
+        expect(result).toBe("fcadbe");
+    })
+
+    it("throws a self-dependency error when given a sequence of jobs, one dependent on itself", () => {
+        expect(() => sequenceJobs(["a =>", "b => c", "c => c"])).toThrow("self-dependency error");
     })
 })

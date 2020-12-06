@@ -1,9 +1,9 @@
-const moveDependencyBeforeJob = (jobs, jobIndex, dependency) => {
+const moveDependencyBeforeJob = (jobs, jobChar, dependency) => {
     // remove dependency from job list
     jobs.splice(jobs.indexOf(dependency), 1)[0];
 
     // re-insert dependency before job
-    jobs.splice(jobIndex, 0, dependency);
+    jobs.splice(jobs.indexOf(jobChar), 0, dependency);
     return jobs;
 };
 
@@ -16,10 +16,9 @@ const SequenceJobs = (jobsList) => {
     });
 
     jobs.forEach((job, jobIndex) => {
-        var jobParts = job.split("=>");
+        var jobParts = job.split(" => ");
         if (jobParts.length == 2 && jobParts[1] != "") {
-            let dependency = jobParts[1].trim();
-            jobChars = moveDependencyBeforeJob(jobChars, jobIndex, dependency)
+            jobChars = moveDependencyBeforeJob(jobChars, jobParts[0], jobParts[1])
         }
     });
 
