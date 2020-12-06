@@ -15,4 +15,9 @@ describe("Job Sequencer", () => {
         var result = sequenceJobs(["a =>", "b =>", "c =>"]);
         expect(result).toBe("abc");
     })
+
+    it("returns a correctly sequenced list of jobs when provided a sequence of a jobs, one with a dependency", () => {
+        var result = sequenceJobs(["a =>", "b => c", "c =>"]);
+        expect(result).toBe("acb");
+    })
 })
