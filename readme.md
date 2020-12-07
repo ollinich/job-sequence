@@ -1,5 +1,9 @@
 # Job Sequence Challenge
 
+To initialise run "yarn" or "npm" then
+yarn test/npm test
+to run tests.
+
 A few notes on my approach to this challenge.
 
 I decided to go with Javascript over .Net for this challenge as the array management methods are more unfamiliar to me than C#/Linq type methods, 
