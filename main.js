@@ -7,44 +7,48 @@ const moveDependencyBeforeJob = (jobs, jobChar, dependency) => {
     return jobs;
 };
 
-// Recursively walks through jobs with dependencies, if any dependency has already been processed
-// we know we are in an infinite loop, so throw out
-const circularCheck = (processedJobs, jobList, job) => {
+/*
+Recursively walks through jobs with dependencies, building a list of unique combinations.
+If any duplicate dependency combination found, we know we are in an infinite loop, so return true,
+otherwise on a non circular dependency chain, the method will return false.
+*/
+const isCyclic = (processedJobs, jobList, job) => {
     if (!job) {
-        return;
+        return false;
     }
     if (processedJobs.includes(job)) {
-        throw ("circular dependency error");
+        return true;
     }
+
     processedJobs.push(job);
-    return {
-        key: job[0],
-        dependency: circularCheck(processedJobs, jobList, jobList.find(x => x[0] == job[1]))
-    }
+    return isCyclic(processedJobs, jobList, jobList.find(x => x[0] == job[1]))
 }
 
-const SequenceJobs = (jobsList) => {
-    // handles both single string and array of strings
-    var jobs = [].concat(jobsList);
+const SequenceJobs = (jobs) => {
     let jobChars = jobs.map((job) => {
         return job.charAt(0);
     });
 
-    let dependenciesProcessed = [];
+    let jobsWithDependencies = [];
 
     jobs.forEach(job => {
         var jobParts = job.split(" => ");
-        if (jobParts.length == 2 && jobParts[1] != "") {
-            if (jobParts[0] == jobParts[1]) {
+        const char = jobParts[0];
+        const dependency = jobParts[1];
+
+        if (jobParts.length == 2 && dependency != "") {
+            if (char == dependency) {
                 throw ("self-dependency error");
             }
 
-            dependenciesProcessed.push(jobParts);
-            jobChars = moveDependencyBeforeJob(jobChars, jobParts[0], jobParts[1])
+            jobsWithDependencies.push(jobParts);
+            jobChars = moveDependencyBeforeJob(jobChars, char, dependency)
         }
     });
 
-    circularCheck([], dependenciesProcessed, dependenciesProcessed[0]);
+    if (isCyclic([], jobsWithDependencies, jobsWithDependencies[0])) {
+        throw ("circular dependency error");
+    }
 
     return jobChars.join("");
 }
